@@ -3,10 +3,10 @@
 This is a simplified implementation of tooncrafter for inference.
 
 ```bash
-# optional: create a venv for this project.
-uv venv --seed && . .venv/bin/activate
+# Optional: create a venv for this project. https://github.com/astral-sh/uv
+uv venv --seed tc-venv && . tc-venv/bin/activate
 # install package
-pip install git+https://github.com/rotarzen/ToonCrafterSimple
+pip install 'tooncrafter @ git+https://github.com/rotarzen/ToonCrafterSimple'
 # start webui
 tc-webui --compile
 ```
