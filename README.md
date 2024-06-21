@@ -1,6 +1,6 @@
 # Simple ToonCrafter Implementation
 
-This is a simplified implementation of tooncrafter for inference.
+This is a simplified implementation of [tooncrafter](https://github.com/ToonCrafter/ToonCrafter) for inference.
 
 ```bash
 # Optional: create a venv for this project. https://github.com/astral-sh/uv
@@ -36,6 +36,21 @@ On an RTX 3090, I obtain:
 |simple implementation|40.031|
 |compiled impl|30.985|
 
+```bash
+$ tc-webui --compile
+...
+tooncrafter.i2v.spawn_model took 12.594 seconds
+precompiling. This will take a while...
+...
+done precompile.
+Running on local URL:  http://127.0.0.1:7850
+
+To create a public link, set `share=True` in `launch()`.
+Executing: prompt='an anime scene', steps=50, cfg_scale=7.5, eta=1, fs=10, seed=789
+...
+tooncrafter.i2v.get_image took 30.502 seconds
+```
+
 Although this project was not developed with the goal of reducing vram usage, the optimizations used have also reduced vram consumption slightly (23.5GB -> 21.5GB). 
 
 ## On numerical differences
@@ -45,7 +60,7 @@ Most changes to the code produce no change in the numerical result of the model.
 However, there are minor changes that arise due to
 * refactoring AttnBlock to use nn.Linear instead of nn.Conv (~10% faster, diff `x∈[-6.106e-05, 6.104e-05]`). see [analysis](./att_numerics.py)
 
-There is (currently) no quantization, or fast sampling, or any optimization tricks that require mathematically different operations in this repo.
+There is (currently) **no quantization, or fast sampling**, or any optimization tricks that lead to mathematically different operations in this repo.
 
 # TODO
 * [ ] learn about other improvements from the community
