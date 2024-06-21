@@ -1,0 +1,71 @@
+model:
+  target: tooncrafter.model.ToonCrafterModel
+  params:
+    uncond_type: 'empty_seq'
+    scale_factor: 0.18215
+    perframe_ae: True
+    ddim_config:
+      rescale_betas_zero_snr: True
+      parameterization: "v"
+      linear_start: 0.00085
+      linear_end: 0.012
+      timesteps: 1000
+      use_dynamic_rescale: true
+      base_scale: 0.7
+
+    unet_config:
+      target: tooncrafter.unet.UNetModel
+      params:
+        in_channels: 8
+        model_channels: 320
+        out_channels: 4
+        num_res_blocks: 2
+
+        attention_resolutions: [4,2,1]
+        channel_mult: [1,2,4,4]
+
+        num_head_channels: 64
+        transformer_depth: 1
+        context_dim: 1024
+
+        temporal_length: 16
+        dims: 2
+
+    first_stage_config:
+      target: tooncrafter.autoencoder.AutoencoderKL_Dualref
+      params:
+        embed_dim: 4
+        ddconfig:
+          double_z: True
+          z_channels: 4
+          resolution: 256
+          in_channels: 3
+          out_ch: 3
+          ch: 128
+          ch_mult: [1,2,4,4]
+          num_res_blocks: 2
+          dropout: 0.0
+
+    cond_stage_config:
+      target: tooncrafter.encoders.FrozenOpenCLIPEmbedder
+      params:
+        freeze: true
+        layer: "penultimate"
+
+    img_cond_stage_config:
+      target: tooncrafter.encoders.FrozenOpenCLIPImageEmbedderV2
+      params:
+        freeze: true
+    
+    image_proj_stage_config:
+      target: tooncrafter.encoders.Resampler
+      params:
+        dim: 1024
+        depth: 4
+        dim_head: 64
+        heads: 12
+        num_queries: 16
+        embedding_dim: 1280
+        output_dim: 1024
+        ff_mult: 4
+        video_length: 16

@@ -1,0 +1,50 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=64", "wheel", "setuptools_scm>=8"]
+
+
+[project]
+name = "tooncraftersimple"
+description = "Simple Tooncrafter Implementation"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [ { name = "rotarzen", email = "168739599+rotarzen@users.noreply.github.com" } ]
+license = { file = "LICENSE.md" }
+urls = { "Homepage" = "https://github.com/rotarzen/ToonCrafterSimple" }
+
+dynamic = ["version"]
+#version = "0.0.1"
+dependencies = [
+  "transformers>=4.41",
+  "safetensors",
+  "hf-transfer",
+
+  "xformers>=0.0.26",
+  "torch>=2.3",
+  "torchvision",
+  "einops",
+
+  "Pillow",
+  "gradio",
+  "omegaconf",
+
+  "open_clip_torch",
+  "kornia",
+  "av",
+]
+
+[tool.setuptools.package-data]
+tooncrafter = ["*.yaml"]
+
+[project.optional-dependencies]
+dev = ["lovely-tensors", "pre-commit", "pytest", "ruff", "build", "twine"]
+
+[tool.setuptools_scm]
+version_file = "src/tooncrafter/_version.py"
+
+[tool.setuptools.packages.find]
+namespaces = true
+where = ["src"]
+
+[project.scripts]
+tc-webui = "tooncrafter.webui:main"
